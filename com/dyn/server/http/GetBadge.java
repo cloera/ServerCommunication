@@ -1,45 +1,29 @@
 package com.dyn.server.http;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-
 import net.oauth.jsontoken.JsonToken;
 import net.oauth.jsontoken.crypto.HmacSHA256Signer;
 
-import com.dyn.server.reference.Reference;
-
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 
 public class GetBadge extends Thread {
 
 	public static JsonElement jsonResponse;
 	public static String response;
 	private String UUID;
-	private String secretKey = "";
-	private String orgKey = "";
+	private String secretKey = /*"71321e0ceea286362f8064478da17ccd2483d421249ebc312dca702c5f331f09";*/"e2607b00a2055b99736f63464ba565ea830dbeb714c2d02a6f62e390d943574c820ae61671540ca9967c66140cc5188c3e5cfc145ba7ede870f648b8d95c2acc";
+	private String orgKey = /*"05bff810-7f2f-4f2b-8fc6-ae12cb17da3f";*/"38f5bab69e94db89fac757eed98d900585a05baaa1aa20b71251ca323a53ef92";
 
 	public GetBadge(String uuid, String secret, String key) {
 		if(uuid != "")

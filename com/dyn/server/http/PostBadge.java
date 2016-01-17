@@ -1,21 +1,17 @@
+
 package com.dyn.server.http;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.oauth.jsontoken.JsonToken;
 import net.oauth.jsontoken.crypto.HmacSHA256Signer;
 
-import com.dyn.server.reference.Reference;
-
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import javax.crypto.SecretKey;
@@ -26,9 +22,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -37,17 +31,19 @@ public class PostBadge extends Thread {
 	public static JsonElement jsonResponse;
 	public static String response;
 	private String UUID;
-	private String secretKey = "";
-	private String orgKey = "";
+	private String secretKey = /* "71321e0ceea286362f8064478da17ccd2483d421249ebc312dca702c5f331f09"; */"e2607b00a2055b99736f63464ba565ea830dbeb714c2d02a6f62e390d943574c820ae61671540ca9967c66140cc5188c3e5cfc145ba7ede870f648b8d95c2acc";
+	private String orgKey = /* "05bff810-7f2f-4f2b-8fc6-ae12cb17da3f"; */"38f5bab69e94db89fac757eed98d900585a05baaa1aa20b71251ca323a53ef92";
 	private int badgeID;
-	
-	public PostBadge(int badgeId, String uuid, String secret, String key) {
+	private EntityPlayerMP player;
+
+	public PostBadge(int badgeId, String uuid, String secret, String key, EntityPlayer player) {
 		if (uuid != "")
 			return;
 		this.UUID = uuid;
 		this.secretKey = secret;
 		this.orgKey = key;
 		this.badgeID = badgeId;
+		this.player = (EntityPlayerMP) player;
 		setName("Server Mod HTTP Post");
 		setDaemon(true);
 		start();
@@ -102,6 +98,14 @@ public class PostBadge extends Thread {
 					}
 					JsonParser jParse = new JsonParser();
 					jsonResponse = jParse.parse(response);
+					JsonObject statusCheck = jsonResponse.getAsJsonObject();
+					if (statusCheck.has("status") && statusCheck.get("status").getAsInt() == 201) {
+						//player.sendChatMessage("Player " + player.getDisplayName() + " has earned the badge");
+					} else {
+						//if (statusCheck.has("status"))
+							//Minecraft.getMinecraft().thePlayer.sendChatMessage("Returned Status: " + statusCheck.get("status").getAsInt());
+						System.out.println(statusCheck);
+					}
 				} finally {
 					instream.close();
 				}

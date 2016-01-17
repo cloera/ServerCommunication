@@ -1,5 +1,8 @@
 package com.dyn.server.proxy;
 
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.entity.player.EntityPlayer;
+
 public class Server implements Proxy {
 
         /**
@@ -11,4 +14,12 @@ public class Server implements Proxy {
                 
         }
 
+        
+        /**
+    	 * Returns a side-appropriate EntityPlayer for use during message handling
+    	 */
+    	@Override
+		public EntityPlayer getPlayerEntity(MessageContext ctx) {
+    		return ctx.getServerHandler().playerEntity;
+    	}
 }
