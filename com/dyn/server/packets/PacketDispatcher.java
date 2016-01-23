@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import com.dyn.server.packets.client.SyncAchievementsMessage;
+import com.dyn.server.packets.client.TeacherSettingsMessage;
+import com.dyn.server.packets.server.AwardAchievementMessage;
 import com.dyn.server.reference.Reference;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -48,10 +50,11 @@ public class PacketDispatcher
 	 */
 	public static final void registerPackets() {
 		// Packets handled on CLIENT
-		//registerMessage(SyncPlayerPropsMessage.class);
+		registerMessage(SyncAchievementsMessage.class);
+		registerMessage(TeacherSettingsMessage.class);
 
 		// Packets handled on SERVER
-		registerMessage(SyncAchievementsMessage.class);
+		registerMessage(AwardAchievementMessage.class);
 
 		// If you don't want to make a 'registerMessage' method, you can do it directly:
 		//PacketDispatcher.dispatcher.registerMessage(SyncPlayerPropsMessage.class, SyncPlayerPropsMessage.class, packetId++, Side.CLIENT);

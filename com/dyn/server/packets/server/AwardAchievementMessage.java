@@ -3,20 +3,21 @@ package com.dyn.server.packets.server;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 
+import com.dyn.achievements.handlers.AchievementHandler;
 import com.dyn.server.packets.AbstractMessage.AbstractServerMessage;
 
 import cpw.mods.fml.relauncher.Side;
 
-public class SeverPacketMessage extends AbstractServerMessage<SeverPacketMessage>
+public class AwardAchievementMessage extends AbstractServerMessage<AwardAchievementMessage>
 {
 	private int id;
 
 	// The basic, no-argument constructor MUST be included to use the new automated handling
-	public SeverPacketMessage() {}
+	public AwardAchievementMessage() {}
 
 	// if there are any class fields, be sure to provide a constructor that allows
 	// for them to be initialized, and use that constructor when sending the packet
-	public SeverPacketMessage(int id) {
+	public AwardAchievementMessage(int id) {
 		this.id = id;
 	}
 
@@ -35,5 +36,7 @@ public class SeverPacketMessage extends AbstractServerMessage<SeverPacketMessage
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		// using the message instance gives access to 'this.id'
+		if(side.isServer())
+			AchievementHandler.findAchievementById(this.id).awardAchievement(player);
 	}
 }

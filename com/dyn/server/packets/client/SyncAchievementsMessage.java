@@ -5,6 +5,8 @@ import com.dyn.achievements.achievement.AchievementPlus;
 import com.dyn.achievements.achievement.AchievementPlus.AchievementType;
 import com.dyn.achievements.achievement.Requirements.BaseRequirement;
 import com.dyn.achievements.handlers.AchievementHandler;
+import com.dyn.server.packets.PacketDispatcher;
+import com.dyn.server.packets.server.AwardAchievementMessage;
 import com.dyn.server.packets.AbstractMessage.AbstractClientMessage;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,6 +59,8 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 				type = AchievementType.STAT;
 			} else if (values[1].equals("SPAWN")) {
 				type = AchievementType.SPAWN;
+			} else if (values[1].equals("PLACE")) {
+				type = AchievementType.PLACE;
 			}
 			int req_id = Integer.parseInt(values[2]);
 
@@ -70,6 +74,10 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 							}
 						}
 					}
+					if(a.meetsRequirements()){
+						PacketDispatcher.sendToServer(new AwardAchievementMessage(a.getId()));
+						a.setAwarded(true);
+					}
 				} else if (a.getParent().isAwarded()) {
 					for (BaseRequirement r : a.getRequirements().getRequirementsByType(type)) {
 						if (r.getRequirementID() == req_id) {
@@ -77,6 +85,10 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 								r.incrementTotal();
 							}
 						}
+					}
+					if(a.meetsRequirements()){
+						PacketDispatcher.sendToServer(new AwardAchievementMessage(a.getId()));
+						a.setAwarded(true);
 					}
 				}
 			}
