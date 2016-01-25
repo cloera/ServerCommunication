@@ -10,4 +10,6 @@ public interface Proxy {
     	 * Returns a side-appropriate EntityPlayer for use during message handling
     	 */
     	public EntityPlayer getPlayerEntity(MessageContext ctx);
+    	
+    	public void init();
 }

@@ -24,4 +24,10 @@ public class Client implements Proxy {
     		// Solution is to double-check side before returning the player:
     		return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : null);
     	}
+
+		@Override
+		public void init() {
+			// TODO Auto-generated method stub
+			
+		}
 }

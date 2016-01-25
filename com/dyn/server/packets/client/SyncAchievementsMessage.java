@@ -39,7 +39,7 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 	}
 
 	@Override
-	public void process(EntityPlayer player, Side side) {
+	public void process(EntityPlayer player, Side side) {	
 		if (side.isClient()) {
 
 			String[] values = this.data.split(" ");
@@ -61,6 +61,8 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 				type = AchievementType.SPAWN;
 			} else if (values[1].equals("PLACE")) {
 				type = AchievementType.PLACE;
+			} else if (values[1].equals("BREAK")) {
+				type = AchievementType.BREAK;
 			}
 			int req_id = Integer.parseInt(values[2]);
 
