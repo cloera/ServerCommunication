@@ -2,9 +2,10 @@ package com.dyn.server.packets.client;
 
 import java.io.IOException;
 import com.dyn.achievements.achievement.AchievementPlus;
-import com.dyn.achievements.achievement.AchievementPlus.AchievementType;
+import com.dyn.achievements.achievement.AchievementType;
 import com.dyn.achievements.achievement.Requirements.BaseRequirement;
 import com.dyn.achievements.handlers.AchievementHandler;
+import com.dyn.login.LoginGUI;
 import com.dyn.server.packets.PacketDispatcher;
 import com.dyn.server.packets.server.AwardAchievementMessage;
 import com.dyn.server.packets.AbstractMessage.AbstractClientMessage;
@@ -17,6 +18,8 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 
 	// the info needed to increment a requirement
 	private String data;
+	
+	//this packet should only be sent when a player is in the right dimension so we shouldnt have to check for it ever
 
 	// The basic, no-argument constructor MUST be included for
 	// automated handling
@@ -57,8 +60,6 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 				type = AchievementType.BREW;
 			} else if (values[1].equals("STAT")) {
 				type = AchievementType.STAT;
-			} else if (values[1].equals("SPAWN")) {
-				type = AchievementType.SPAWN;
 			} else if (values[1].equals("PLACE")) {
 				type = AchievementType.PLACE;
 			} else if (values[1].equals("BREAK")) {
@@ -77,8 +78,8 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 						}
 					}
 					if(a.meetsRequirements()){
-						PacketDispatcher.sendToServer(new AwardAchievementMessage(a.getId()));
-						a.setAwarded(true);
+						PacketDispatcher.sendToServer(new AwardAchievementMessage(a.getId(), LoginGUI.DYN_Username ));
+						a.setAwarded();
 					}
 				} else if (a.getParent().isAwarded()) {
 					for (BaseRequirement r : a.getRequirements().getRequirementsByType(type)) {
@@ -89,8 +90,8 @@ public class SyncAchievementsMessage extends AbstractClientMessage<SyncAchieveme
 						}
 					}
 					if(a.meetsRequirements()){
-						PacketDispatcher.sendToServer(new AwardAchievementMessage(a.getId()));
-						a.setAwarded(true);
+						PacketDispatcher.sendToServer(new AwardAchievementMessage(a.getId(), LoginGUI.DYN_Username));
+						a.setAwarded();
 					}
 				}
 			}

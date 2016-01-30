@@ -1,8 +1,8 @@
 package com.dyn.server.proxy;
 
+import java.util.List;
+
 import com.dyn.server.packets.PacketDispatcher;
-import com.dyn.server.packets.client.GetWorldsMessage;
-import com.dyn.server.packets.client.SyncWorldMessage;
 import com.dyn.server.packets.client.TeacherSettingsMessage;
 //import com.forgeessentials.api.APIRegistry;
 import com.mojang.authlib.GameProfile;
@@ -50,26 +50,33 @@ public class Server implements Proxy {
 	@SubscribeEvent
 	public void loginEvent(PlayerEvent.PlayerLoggedInEvent event) {
 		if (getOpLevel(event.player.getGameProfile()) > 0) {
-			PacketDispatcher.sendTo(new TeacherSettingsMessage(getServerUsers(), true), (EntityPlayerMP) event.player);
+			PacketDispatcher.sendTo(new TeacherSettingsMessage(getServerUserlist(), true), (EntityPlayerMP) event.player);
 		}
 
 		//PacketDispatcher.sendTo(new GetWorldsMessage(APIRegistry.namedWorldHandler.getWorldNames()), (EntityPlayerMP) event.player);
 
 	}
 
-	/*@SubscribeEvent
-	public void changedDim(PlayerEvent.PlayerLoggedInEvent event) {
-		PacketDispatcher.sendTo(
+	@SubscribeEvent
+	public void changedDim(PlayerEvent.PlayerChangedDimensionEvent event) {
+		//event.player.addChatMessage(new ChatComponentText("Player Warped from " + event.fromDim + " to Dimension" + event.toDim));
+		/*PacketDispatcher.sendTo(
 				new SyncWorldMessage(
 						APIRegistry.namedWorldHandler.getWorldName(event.player.worldObj.provider.dimensionId)),
-				(EntityPlayerMP) event.player);
+				(EntityPlayerMP) event.player);*/
 
-	}*/
+	}
 
-	private String[] getServerUsers() {
+	@Override
+	public String[] getServerUserlist() {
 		return MinecraftServer.getServer().getAllUsernames();
 	}
 
+	@Override
+	public List<EntityPlayerMP> getServerUsers() {
+		return MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+	}
+	
 	private int getOpLevel(GameProfile profile) {
 		// does the configuration manager return null on the client side?
 		MinecraftServer minecraftServer = MinecraftServer.getServer();

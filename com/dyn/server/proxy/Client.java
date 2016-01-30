@@ -1,8 +1,11 @@
 package com.dyn.server.proxy;
 
+import java.util.List;
+
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class Client implements Proxy {
 
@@ -29,5 +32,17 @@ public class Client implements Proxy {
 		public void init() {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public String[] getServerUserlist() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public List<EntityPlayerMP> getServerUsers() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 }

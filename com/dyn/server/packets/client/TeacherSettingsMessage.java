@@ -45,7 +45,7 @@ public class TeacherSettingsMessage extends AbstractClientMessage<TeacherSetting
 			if (side.isClient()) {
 				String[] users = this.data.split(" ");
 				
-				player.addChatMessage(new ChatComponentText("Recieved Packet - Player is Opped? " + this.isOpped + " and playerlist of size " + users.length));
+				//player.addChatMessage(new ChatComponentText("Recieved Packet - Player is Opped? " + this.isOpped + " and playerlist of size " + users.length));
 				
 				ServerMod.usernames.clear();
 				for(String u : users){

@@ -4,10 +4,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.dyn.server.packets.PacketDispatcher;
 import com.dyn.server.proxy.Proxy;
 import com.dyn.server.reference.Reference;
