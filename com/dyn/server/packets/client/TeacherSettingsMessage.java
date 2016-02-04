@@ -6,7 +6,6 @@ import com.dyn.server.packets.AbstractMessage.AbstractClientMessage;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ChatComponentText;
 import cpw.mods.fml.relauncher.Side;
 
 public class TeacherSettingsMessage extends AbstractClientMessage<TeacherSettingsMessage> {
@@ -30,7 +29,7 @@ public class TeacherSettingsMessage extends AbstractClientMessage<TeacherSetting
 
 		@Override
 		protected void read(PacketBuffer buffer) throws IOException {
-			data = buffer.readStringFromBuffer(10000);
+			data = buffer.readStringFromBuffer(30000);
 			isOpped = buffer.readBoolean();
 		}
 
@@ -43,13 +42,9 @@ public class TeacherSettingsMessage extends AbstractClientMessage<TeacherSetting
 		@Override
 		public void process(EntityPlayer player, Side side) {
 			if (side.isClient()) {
-				String[] users = this.data.split(" ");
-				
-				//player.addChatMessage(new ChatComponentText("Recieved Packet - Player is Opped? " + this.isOpped + " and playerlist of size " + users.length));
-				
+				String[] users = this.data.split(" ");				
 				ServerMod.usernames.clear();
 				for(String u : users){
-					player.addChatMessage(new ChatComponentText(u));
 					if(u != null && !u.equals("null")){
 						ServerMod.usernames.add(u);
 					}
