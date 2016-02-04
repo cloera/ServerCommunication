@@ -15,7 +15,6 @@ import com.dyn.server.reference.Reference;
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
 public class ServerMod {
 	
-	public static List<String> worlds = new ArrayList();
 	public static List<String> usernames = new ArrayList();
 	public static boolean opped = false;
 	
